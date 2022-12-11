@@ -1,16 +1,17 @@
 .LC7:
         .string "%lf"
 main:
-        subq    $8, %rsp
-        movsd   .LC4(%rip), %xmm6
+//В этом блоке идет применение sse2 инструкций и запись констант из .LC#
+        subq    $8, %rsp                    //Сдвигаем вершину стэка на 8 байт
+        movsd   .LC4(%rip), %xmm6           //0, 1074790400
         xorl    %eax, %eax
-        movsd   .LC6(%rip), %xmm5
-        movdqa  .LC0(%rip), %xmm2
+        movsd   .LC6(%rip), %xmm5           //0, 10..0
+        movdqa  .LC0(%rip), %xmm2           //0, 1, 2, 3
         movdqa  .LC2(%rip), %xmm7
-        pxor    %xmm3, %xmm3
+        pxor    %xmm3, %xmm3                //Зануляем xmm3, xmm4
         pxor    %xmm4, %xmm4
         movdqa  .LC1(%rip), %xmm8
-        unpcklpd        %xmm6, %xmm6
+        unpcklpd        %xmm6, %xmm6        //Инструкция sse2 на перенос нижних упакованных значений double с чередованием
         unpcklpd        %xmm5, %xmm5
 .L2:
         movdqa  %xmm2, %xmm0
