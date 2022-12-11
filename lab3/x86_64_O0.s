@@ -11,8 +11,9 @@ main:
         movsd   %xmm0, -16(%rbp) 	//Заполняем 8 байт нулями для double delta= 0
         movl    $0, -20(%rbp) 		// заполняем 4 байта нулями для int i = 0
         jmp     .L2 			//Переходим на метку проверку условий цикла
-.L4: //Тело цикла
 
+//Тело цикла
+.L4:
         movl    -20(%rbp), %eax 	//Загружаем значение i в %eax
         addl    %eax, %eax 		//Умножаем eax на два
         addl    $1, %eax 		//Добавляем единичку в %eax
@@ -23,24 +24,30 @@ main:
         movsd   %xmm0, -16(%rbp)	//Копируем полученное значение в delta
         movl    -20(%rbp), %edx		//Копируем i в %edx
         movl    %edx, %eax		//Копируем i в %eax
-        sarl    $31, %eax		//Сдвиги, после которых в eax i%2
+        sarl    $31, %eax
+        //Проверка на четность
         shrl    $31, %eax	
-        addl    %eax, %edx		//Прибавляем i%2 к i в edx
-        andl    $1, %edx		//Конъюнкция edx с единицей
-        subl    %eax, %edx		//Вычитаем i%2 из edx
-        movl    %edx, %eax		//Записываем в eax
-        cmpl    $1, %eax		//Получили ноль - победа,
-        jne     .L3			//идем на .L3 прибавлять к pi
+        addl    %eax, %edx
+        andl    $1, %edx
+        subl    %eax, %edx
+        movl    %edx, %eax
+        //Если четно, идем на прибавление к pi
+        cmpl    $1, %eax
+        jne     .L3
+        //Если нечетно, отнимаем дельту
         movsd   -16(%rbp), %xmm0	//Если не получили, копируем в xmm0 delta
         movq    .LC2(%rip), %xmm1	//Потом в xmm1 копируем -2147483648
         xorpd   %xmm1, %xmm0		//Зануляем xmm0
         movsd   %xmm0, -16(%rbp)
+
+//Прибавляем к pi delta
 .L3:
         movsd   -8(%rbp), %xmm0
         addsd   -16(%rbp), %xmm0
         movsd   %xmm0, -8(%rbp)
-        addl    $1, -20(%rbp)
-.L2: //Проверка условий цикла
+        addl    $1, -20(%rbp) //Инкремент счетчика
+//Проверка условий цикла
+.L2:
         movl    -20(%rbp), %eax //Кладем в eax текущее значение i
         cltq    		//Приводим 4 байтовый i к 8 байтам в rax
         cmpq    %rax, -32(%rbp)	//Сравниваем N и i
@@ -54,6 +61,8 @@ main:
         leave 			//Выходим из main
         ret 			//Возврат из main
 				//Завершение программы
+
+//Константы
 .LC1:
         .long   0
         .long   1074790400
