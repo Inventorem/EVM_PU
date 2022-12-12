@@ -1,7 +1,7 @@
 .LC2:
         .string "%lf"
 main:
-        leal    4(%esp), %ecx
+        leal    4(%esp), %ecx                   //В ecx копируем последние 4 байта перед вершиной стека
         andl    $-16, %esp
         pushl   -4(%ecx)
         pushl   %ebp
