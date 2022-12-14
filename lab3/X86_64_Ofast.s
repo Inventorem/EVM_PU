@@ -31,26 +31,26 @@ main:
         //сдвиг влево, сравнение равенства,
         //преобразование dword в double, деление,
         //перераспределние упакованных слов и по новой
-        pand    %xmm7, %xmm0
-        paddd   %xmm8, %xmm2
-        pslld   $1, %xmm1
-        pcmpeqd %xmm4, %xmm0
-        paddd   %xmm7, %xmm1
-        cvtdq2pd        %xmm1, %xmm9
-        divpd   %xmm9, %xmm10
+        pand    %xmm7, %xmm0 //Упакованное обитовое сложение
+        paddd   %xmm8, %xmm2 //Упакованное сложение
+        pslld   $1, %xmm1 //Cдвиг влево упакованных двойных словь
+        pcmpeqd %xmm4, %xmm0 //Сравнение на равенство упакованных слов
+        paddd   %xmm7, %xmm1 //Прибавляем
+        cvtdq2pd        %xmm1, %xmm9 //Преобразование двух dword в double
+        divpd   %xmm9, %xmm10 //векторное деление double
         pshufd  $238, %xmm1, %xmm1
-        movapd  %xmm6, %xmm9
+        movapd  %xmm6, %xmm9 //перемещение упакованных double
         cvtdq2pd        %xmm1, %xmm1
-        pcmpgtd %xmm0, %xmm11
-        divpd   %xmm1, %xmm9
+        pcmpgtd %xmm0, %xmm11 //Сравнение на больше
+        divpd   %xmm1, %xmm9 //Векторное деление
         movdqa  %xmm0, %xmm1
-        punpckhdq       %xmm11, %xmm0
+        punpckhdq       %xmm11, %xmm0 //Распаковка в qword
         punpckldq       %xmm11, %xmm1
-        movapd  %xmm10, %xmm12
-        andpd   %xmm1, %xmm10
-        xorpd   %xmm5, %xmm12
-        andnpd  %xmm12, %xmm1
-        orpd    %xmm10, %xmm1
+        movapd  %xmm10, %xmm12 //перемещение слов
+        andpd   %xmm1, %xmm10 //упакованное и
+        xorpd   %xmm5, %xmm12 //упакованный xor
+        andnpd  %xmm12, %xmm1 //упакованный и
+        orpd    %xmm10, %xmm1 //упакованный |
         movapd  %xmm9, %xmm10
         andpd   %xmm0, %xmm9
         xorpd   %xmm5, %xmm10
