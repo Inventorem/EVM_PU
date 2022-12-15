@@ -1,20 +1,20 @@
 .LC0:
         .ascii  "%lf\000"
 main:
-        push    {r7, lr}
-        sub     sp, sp, #32
-        add     r7, sp, #0
-        adr     r1, .L6
-        ldrd    r0, [r1]
-        strd    r0, [r7]
-        mov     r0, #0
-        mov     r1, #0
-        strd    r0, [r7, #24]
+        push    {r7, lr}            //На стек два регистра
+        sub     sp, sp, #32         //Выделить 32 байта
+        add     r7, sp, #0          //Прибавить ноль, записать в r7
+        adr     r1, .L6             //записать в r1 .L6 адрес N
+        ldrd    r0, [r1]            //Загрузить в r0 значение N
+        strd    r0, [r7]            //Сохранить r0 по адресу r7
+        mov     r0, #0              //Записать ноль в r0
+        mov     r1, #0              //Также обнуляем r1
+        strd    r0, [r7, #24]       //На 24 бита пишем ноль
         mov     r0, #0
         mov     r1, #0
         strd    r0, [r7, #16]
         movs    r1, #0
-        str     r1, [r7, #12]
+        str     r1, [r7, #12]       //Записываем i
         b       .L2
 .L4:
         ldr     r1, [r7, #12]

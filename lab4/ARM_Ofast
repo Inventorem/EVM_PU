@@ -2,22 +2,22 @@
         .ascii  "%lf\000"
 main:
         vmov.i64        d17, #0 @ float
-        mov     r1, #29952
-        movt    r1, 32043
-        push    {r3, lr}
+        mov     r1, #29952  //Записать в r1
+        movt    r1, 32043   //Записать в r1 32043 в верхнюю половину
+        push    {r3, lr}  //Запушить r3, lr
         movs    r2, #1
         movs    r3, #0
         vmov.f64        d19, #4.0e+0
 .L3:
         vmov    s15, r2 @ int
-        tst     r3, #1
+        tst     r3, #1  //Сравнить с единицей кинуть флаг
         add     r3, r3, #1
         add     r2, r2, #2
-        vcvt.f64.s32    d18, s15
-        vdiv.f64        d16, d19, d18
-        it      ne
-        vnegne.f64      d16, d16
-        cmp     r3, r1
+        vcvt.f64.s32    d18, s15 //Переделать в float 64
+        vdiv.f64        d16, d19, d18 //Делим четыре на число большое, пишем в d16
+        it      ne //Ставим на следующие команды флаг not equal
+        vnegne.f64      d16, d16 //delta равно -delta
+        cmp     r3, r1 // сравнить r3 и r1
         vadd.f64        d17, d17, d16
         bne     .L3
         vmov    r2, r3, d17
