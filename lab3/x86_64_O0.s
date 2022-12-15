@@ -62,8 +62,8 @@ main:
         movl    $1, %eax 	        // пишем 1 в eax, т.к. выводим только pi
         call    printf 		        //Выводим pi
         movl    $0, %eax 	        //Зануляем eax
-        leave 			            //Выходим из main
-        ret 			            //Возврат из main
+        leave
+        ret 			            //Возврат в main
 		//Завершение программы
 
 //Константы
