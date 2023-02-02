@@ -1,4 +1,4 @@
-#Mainframe and peripheral devices course in NSU<br>
+# Mainframe and peripheral devices course in NSU<br>
 Main languages: C/C++, Assembly x86_64, Assembly ARM<br>
 Currently 9 laboratory project:<br>
 **1. Determine time of execution of applied programs.**<br>
